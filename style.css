@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 20px;
+}
+header {
+    text-align: center;
+    margin-bottom: 50px;
+}
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    margin: 0 auto;
+    gap: 10px;
+}
+input, textarea, button {
+    padding: 10px;
+    font-size: 16px;
+}
+button {
+    background: #00d4ff;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+.fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: 0.8s;
+}
+.fade-up.show {
+    opacity: 1;
+    transform: translateY(0);
+}
