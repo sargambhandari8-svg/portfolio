@@ -1,42 +1,53 @@
-// Animation
-const elements = document.querySelectorAll('.fade-up');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) entry.target.classList.add('show');
-    });
-});
-elements.forEach(el => observer.observe(el));
+const app = express();
 
-// Backend URL (put your Render or Railway URL)
-const backendURL = 'https://myportfolio-backend.onrender.com/send'; // <-- change this
+app.use(cors());
+app.use(express.json());
 
-// Form submit
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+app.post('/send', async (req, res) => {
+    const { name, email, message } = req.body;
 
-    const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
+    if (!name || !email || !message) {
+        return res.json({ success: false });
+    }
 
     try {
-        const res = await fetch(backendURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            },
+            tls: {
+                rejectUnauthorized: false
+            }
         });
-        const result = await res.json();
 
-        if (result.success) {
-            alert("✅ Message Sent!");
-            document.getElementById('contactForm').reset();
-        } else {
-            alert("⚠️ Error sending message: " + result.error);
-        }
+        await transporter.sendMail({
+            from: `"Portfolio" <${process.env.EMAIL}>`,
+            to: process.env.EMAIL,
+            subject: `🚀 New Message from ${name}`,
+            text: `
+Name: ${name}
+Email: ${email}
+
+Message:
+${message}
+            `
+        });
+
+        res.json({ success: true });
+
     } catch (err) {
-        console.error(err);
-        alert("⚠️ Could not connect to server.");
+        console.log("❌ Email error:", err);
+        res.json({ success: false });
     }
+});
+
+app.listen(5000, () => {
+    console.log("✅ Server running on http://localhost:5000");
 });
