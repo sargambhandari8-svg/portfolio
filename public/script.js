@@ -12,8 +12,7 @@ const observer = new IntersectionObserver(entries => {
 elements.forEach(el => observer.observe(el));
 
 // Backend URL (LOCAL)
-const backendURL = 'http://localhost:5000/send';
-
+const backendURL = 'https://sargam-portfolio.onrender.com/send';
 // Form submit
 document.getElementById('contactForm').addEventListener('submit', async function(e) {
     e.preventDefault();
