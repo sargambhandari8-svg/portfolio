@@ -1,45 +1,35 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
+// Backend URL (Render deployment)
+const backendURL = 'https://portfolio-x23d.onrender.com/send'; // <-- change to your Render URL
 
-const app = express();
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static('public')); // serve frontend files
+    alert("⏳ Sending message..."); // instant feedback
 
-app.post('/send', async (req, res) => {
-    const { name, email, message } = req.body;
-
-    if (!name || !email || !message) {
-        return res.json({ success: false, error: "All fields required" });
-    }
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        message: document.getElementById('message').value
+    };
 
     try {
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.EMAIL,
-                pass: process.env.PASSWORD
-            },
-            tls: { rejectUnauthorized: false }
+        const res = await fetch(backendURL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
         });
 
-        await transporter.sendMail({
-            from: `"Portfolio" <${process.env.EMAIL}>`,
-            to: process.env.EMAIL,
-            subject: `🚀 New Message from ${name}`,
-            text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`
-        });
+        const result = await res.json();
 
-        res.json({ success: true });
+        if (result.success) {
+            alert("✅ Message Sent Successfully!");
+            document.getElementById('contactForm').reset();
+        } else {
+            alert("❌ Email failed");
+        }
 
     } catch (err) {
-        console.error("❌ Email error:", err);
-        res.json({ success: false, error: "Email failed" });
+        console.error(err);
+        alert("⚠️ Server not running!");
     }
 });
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
