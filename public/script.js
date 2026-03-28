@@ -1,48 +1,45 @@
-// Animation
-const elements = document.querySelectorAll('.fade-up');
+require('dotenv').config();
+const express = require('express');
+const cors = require('cors');
+const nodemailer = require('nodemailer');
 
-const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('show');
-        }
-    });
-});
+const app = express();
 
-elements.forEach(el => observer.observe(el));
+app.use(cors());
+app.use(express.json());
+app.use(express.static('public')); // serve frontend files
 
-// Backend URL (LOCAL)
-const backendURL = 'https://sargam-portfolio.onrender.com/send';
-// Form submit
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
+app.post('/send', async (req, res) => {
+    const { name, email, message } = req.body;
 
-    alert("⏳ Sending message..."); // instant feedback
-
-    const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
+    if (!name || !email || !message) {
+        return res.json({ success: false, error: "All fields required" });
+    }
 
     try {
-        const res = await fetch(backendURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.PASSWORD
+            },
+            tls: { rejectUnauthorized: false }
         });
 
-        const result = await res.json();
+        await transporter.sendMail({
+            from: `"Portfolio" <${process.env.EMAIL}>`,
+            to: process.env.EMAIL,
+            subject: `🚀 New Message from ${name}`,
+            text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`
+        });
 
-        if (result.success) {
-            alert("✅ Message Sent Successfully!");
-            document.getElementById('contactForm').reset();
-        } else {
-            alert("❌ Email failed");
-        }
+        res.json({ success: true });
 
     } catch (err) {
-        console.error(err);
-        alert("⚠️ Server not running!");
+        console.error("❌ Email error:", err);
+        res.json({ success: false, error: "Email failed" });
     }
 });
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
