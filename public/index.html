@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sargam Bhandari | Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sargam Bhandari | Portfolio</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js" defer></script>
 </head>
-
 <body>
 
-<header>
-    <h1 class="fade-up">Sargam Bhandari</h1>
-    <p class="fade-up delay-1">Web Developer | Designer | Video Editor | Student</p>
-
-    <nav class="fade-up delay-2">
+<header class="fade-up">
+    <h1>Sargam Bhandari</h1>
+    <p>Web Developer | Designer | Video Editor | Student</p>
+    <nav>
         <a href="#about">About</a>
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
-        <a href="#Education">Education</a>
+        <a href="#education">Education</a>
         <a href="#contact">Contact</a>
-        
     </nav>
 </header>
 
 <section id="about" class="fade-up">
     <h2>About Me</h2>
     <img src="my.png" alt="My Photo" class="profile-img">
-    <p>Hello, my name is Sargam Bhandari, and I am from Nepal. I am a passionate learner with a strong interest in coding and technology. I am always motivated to gain knowledge and continuously improve my skills by learning new things. I was born on November 5, 2006, on a Sunday in Nepal. I enjoy helping others and believe in growing together. My goal is to become a skilled cybersecurity professional..</p>
+    <p>Hello! I am Sargam Bhandari from Nepal. I love coding and technology. My goal is to become a skilled cybersecurity professional.</p>
 </section>
 
 <section id="skills" class="fade-up delay-1">
     <h2>Skills</h2>
-    <ul>
+    <ul class="skills-list">
         <li>HTML</li>
         <li>CSS</li>
         <li>JavaScript</li>
@@ -42,40 +40,41 @@
 
 <section id="projects" class="fade-up delay-2">
     <h2>Projects</h2>
-    <article>
+    <div class="project-card fade-up">
         <h3>Portfolio Website</h3>
         <p>Built using HTML, CSS, JS</p>
-    </article>
+        <a href="#" class="btn">View Project</a>
+    </div>
+    <div class="project-card fade-up delay-1">
+        <h3>Other Project</h3>
+        <p>Example description for another project</p>
+        <a href="#" class="btn">View Project</a>
+    </div>
 </section>
 
-<section id="Education" class="fade-up delay-3">
+<section id="education" class="fade-up delay-3">
     <h2>Education</h2>
-    <article>
-        <ul>
-            <li>
-                <strong>School Level (Up to Grade 10)</strong><br>
-                United Educational Academy, Sarlahi, Hariyon<br>
-                GPA: 3.45
-            </li>
-
-            <li>
-                <strong>Higher Secondary (Grades 11–12, Computer Science)</strong><br>
-                Lumbini Academic College, Kathmandu<br>
-                GPA: 3.69
-            </li>
-
-            <li>
-                <strong>Bachelor's Degree (BIT - Running)</strong><br>
-                Texas College of Management & IT, Kathmandu<br>
-                Currently pursuing a degree in Information Technology
-            </li>
-        </ul>
-    </article>
+    <ul>
+        <li>
+            <strong>School Level (Up to Grade 10)</strong><br>
+            United Educational Academy, Sarlahi, Hariyon<br>
+            GPA: 3.45
+        </li>
+        <li>
+            <strong>Higher Secondary (Grades 11–12, Computer Science)</strong><br>
+            Lumbini Academic College, Kathmandu<br>
+            GPA: 3.69
+        </li>
+        <li>
+            <strong>Bachelor's Degree (BIT - Running)</strong><br>
+            Texas College of Management & IT, Kathmandu<br>
+            Currently pursuing a degree in IT
+        </li>
+    </ul>
 </section>
 
 <section id="contact" class="fade-up delay-4">
     <h2>Contact</h2>
-
     <form id="contactForm">
         <input type="text" id="name" placeholder="Your Name" required>
         <input type="email" id="email" placeholder="Your Email" required>
@@ -84,10 +83,9 @@
     </form>
 </section>
 
-<footer>
+<footer class="fade-up">
     <p>© 2026 Sargam Bhandari</p>
 </footer>
 
-<script src="script.js"></script>
 </body>
 </html>

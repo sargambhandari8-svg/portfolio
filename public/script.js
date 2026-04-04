@@ -1,35 +1,21 @@
-// Backend URL (Render deployment)
-const backendURL = 'https://portfolio-x23d.onrender.com/send'; // <-- change to your Render URL
-
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
+// Contact form popup
+document.getElementById('contactForm').addEventListener('submit', function(e){
     e.preventDefault();
-
-    alert("⏳ Sending message..."); // instant feedback
-
-    const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        message: document.getElementById('message').value
-    };
-
-    try {
-        const res = await fetch(backendURL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-
-        const result = await res.json();
-
-        if (result.success) {
-            alert("✅ Message Sent Successfully!");
-            document.getElementById('contactForm').reset();
-        } else {
-            alert("❌ Email failed");
-        }
-
-    } catch (err) {
-        console.error(err);
-        alert("⚠️ Server not running!");
-    }
+    alert("✅ Message sent!");
+    this.reset();
 });
+
+// Fade-up animations on scroll
+const faders = document.querySelectorAll('.fade-up');
+
+const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+
+const appearOnScroll = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+    });
+}, appearOptions);
+
+faders.forEach(fader => appearOnScroll.observe(fader));
